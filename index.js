@@ -33,16 +33,79 @@ function generateHtml() {
     writeToFile( HtmlArr );
 };
 
+function addManager() {
+    inquirer.prompt( managerQuestions )
+    .then( function(data) {
+        const managerName = this.name;
+        const managerId = this.id;
+        const managerEmail = this.email;
+        const managerOffice = data.managerOffice;
+        const teamMember = new Manager(managerName, managerId, managerEmail, managerOffice);
+
+        teamArr.push( teamMember );
+
+        nonManagerMember();
+    })
+};
+
 function addEmployee() {
-    inquirer.prompt(employeeQuestions) 
+    return inquirer.prompt([
+        {
+        type: "input",
+        name: "EmployeeName",
+        message: "Enter Employee's name", 
+        validate: employeeName => {
+           if ( employeeName && employeeName.trim().length > 0 ) {
+              return true;
+           }
+           else {
+              console.log( "You must enter employee's name" );
+              return false;
+           }
+           }
+        },
+        {
+            type: "input",
+            name: "EmployeeId",
+            message: "Enter employee's ID:",
+            validate: employeeId => {
+               if ( employeeId && employeeId.trim().length > 0 ) {
+                  return true;
+               }
+               else {
+                  console.log( "You must enter employee's ID:" );
+                  return false;
+               };
+            }
+         },
+         {
+            type: "input",
+            name: "EmployeeEmail",
+            message: "Enter employee's email address:",
+            validate: employeeEmail => {
+               if ( employeeEmail && employeeEmail.trim().length > 0 ) {
+                  if ( /^.+@.+\..+$/gi.test( employeeEmail )) {
+                     return true;
+                  };
+               }
+               else {
+                  console.log( "You must enter employee's email address:" );
+                  return false;
+               };
+            }
+         },
+    ])
+
     .then (function(data) {
         const employeeName = '';
         const employeeId = '';
         const employeeEmail = '';
         const teamMember = new Employee (employeeName, employeeId, employeeEmail)
         teamArr.push(teamMember)
-    })
-}
+
+        addManager();
+    }) 
+};
 
 function addEngineer() {
     inquirer.prompt(engineerQuestions) 
@@ -91,31 +154,16 @@ function nonManagerMember() {
     });
 };
 
-function addManager() {
-    inquirer.prompt( managerQuestions )
-    .then( function(data) {
-        const managerName = this.name;
-        const managerId = this.id;
-        const managerEmail = this.email;
-        const managerOffice = data.managerOffice;
-        const teamMember = new Manager(managerName, managerId, managerEmail, managerOffice);
-
-        teamArr.push( teamMember );
-
-        nonManagerMember();
-    })
-};
-
 function init() {
 inquirer.prompt([
     {
         message: '',
-        name: 'What is your team name?'
+        name: ''
     }
     ])
     addEmployee();
-    addManager();
-    nonManagerMember();  
-}
+    // addManager();
+    // nonManagerMember();  
+};
 
 init();
