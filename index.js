@@ -1,5 +1,6 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
+const Employee = require('./lib/Employee')
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
@@ -31,6 +32,17 @@ function generateHtml() {
     const HtmlArr = generatePage.generateHtml( teamArr );
     writeToFile( HtmlArr );
 };
+
+function addEmployee() {
+    inquirer.prompt(employeeQuestions) 
+    .then (function(data) {
+        const employeeName = '';
+        const employeeId = '';
+        const employeeEmail = '';
+        const teamMember = new Employee (employeeName, employeeId, employeeEmail)
+        teamArr.push(teamMember)
+    })
+}
 
 function addEngineer() {
     inquirer.prompt(engineerQuestions) 
@@ -97,9 +109,13 @@ function addManager() {
 function init() {
 inquirer.prompt([
     {
-        message: ''
+        message: '',
+        name: 'What is your team name?'
     }
     ])
+    addEmployee();
+    addManager();
+    nonManagerMember();  
 }
 
 init();
