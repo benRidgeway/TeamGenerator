@@ -16,7 +16,7 @@ module.exports = {
     `;
        HtmlArr.push( htmlHeader);
  
-       // Loop through the teamArr array
+       // Loop through the teamProfileArr array
        for ( let i = 1; i < teamArr.length; i++ ) {
           let teamHtml = `
           <div class = "employee-card">
