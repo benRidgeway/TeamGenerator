@@ -36,9 +36,9 @@ function generateHtml() {
 function addManager() {
     inquirer.prompt( managerQuestions )
     .then( function(data) {
-        const managerName = this.name;
-        const managerId = this.id;
-        const managerEmail = this.email;
+        const managerName = data.managerName;
+        const managerId = data.managerId;
+        const managerEmail = manager.email;
         const managerOffice = data.managerOffice;
         const teamMember = new Manager(managerName, managerId, managerEmail, managerOffice);
 
@@ -93,7 +93,7 @@ function addEmployee() {
                   return false;
                };
             }
-         },
+         }
     ])
 
     .then (function(data) {
@@ -123,7 +123,7 @@ function addEngineer() {
 }
 
 function addIntern() {
-    inquirer.prompt(internQuestions) 
+    inquirer.prompt(internQuestions, answers) 
     .then ( function(data) {
         const internName = this.name;
         const internId = this.id;
@@ -162,7 +162,7 @@ inquirer.prompt([
     }
     ])
     addEmployee();
-    // addManager();
+    addManager();
     // nonManagerMember();  
 };
 
